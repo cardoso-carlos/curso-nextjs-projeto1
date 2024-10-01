@@ -1,43 +1,48 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button } from '.';
-describe('<Button />', () => {
-    it('should render the button with the text "Load more posts"', () => {
-        render(<Button text="Load more posts"/>);    
-        
-        expect.assertions(1);
-        const button = screen.getByRole('button', {name: /Load more posts/i });
-       // expect(button).toHaveAttribute('class', 'button');
-        expect(button).toBeInTheDocument();
-    });
+describe("<Button />", () => {
+  it("should render the button with the text Load more posts", () => {
+    const fn = jest.fn();
+    render(<Button text="Load more posts" disabled={false} onClick={fn} />);
 
-    it('should call function on button click', () => {
-        const fn = jest.fn();
-        render(<Button text="Load more posts" onClick={fn}/>);
+    expect.assertions(1);
+    const button = screen.getByRole("button", { name: /Load more posts/i });
+    // expect(button).toHaveAttribute("class", "button");
+    expect(button).toBeInTheDocument();
+  });
 
-        const button = screen.getByRole('button', {name: /Load more posts/i });
-        userEvent.click(button);
-        //fireEvent.click(button);
-        expect(fn).toHaveBeenCalledTimes(1);
-    });
+  it("should call function on button click", () => {
+    const fn = jest.fn();
+    render(<Button text="Load more posts" disabled={false} onClick={fn} />);
 
-    it('should be disabled when disabled is true', () => {
-        render(<Button text="Load more posts" disabled={true}/>);
+    const button = screen.getByRole("button", { name: /Load more posts/i });
+    userEvent.click(button);
+    //fireEvent.click(button);
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
 
-        const button = screen.getByRole('button', {name: /Load more posts/i });
-        expect(button).toBeDisabled();
-    });
+  it("should be disabled when disabled is true", () => {
+    const fn = jest.fn();
+    render(<Button text="Load more posts" disabled={true} onClick={fn} />);
 
-    it('should be enabled when enabled is true', () => {
-        render(<Button text="Load more posts" disabled={false}/>);
+    const button = screen.getByRole("button", { name: /Load more posts/i });
+    expect(button).toBeDisabled();
+  });
 
-        const button = screen.getByRole('button', {name: /Load more posts/i });
-        expect(button).toBeEnabled();
-    });
+  it("should be enabled when enabled is true", () => {
+    const fn = jest.fn();
+    render(<Button text="Load more posts" disabled={false} onClick={fn} />);
 
-    it('should match snapshot', () => {
-        const { container } =  render(<Button text="Load more posts" disabled={false}/>);
-        expect(container.firstChild).toMatchSnapshot();
-    });
+    const button = screen.getByRole("button", { name: /Load more posts/i });
+    expect(button).toBeEnabled();
+  });
+
+  it("should match snapshot", () => {
+    const fn = jest.fn();
+    const { container } =  render(<Button text="Load more posts" disabled={false} onClick={fn} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
 
 });
